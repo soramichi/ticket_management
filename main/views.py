@@ -63,15 +63,10 @@ def do_add_ticket(req, **kwargs):
         # use the existing live, take [0] as filter returns a dict even if len is 1
         live = live[0]
 
-    ticket = Ticket.objects.filter(owner = req.user.username, live = live)
-    if len(ticket) == 0:
-        # create a new ticket
-        ticket = Ticket(owner = req.user.username, live = live, number = 0)
-    else:
-        # use the existing ticket, take [0] as filter returns a dict even if len is 1
-        ticket = ticket[0]
+    for i in range(0, number):
+        # multiple tickets are distinguishable by `.id', which is automatically
+        # added by the django framework
+        ticket = Ticket(owner = req.user.username, live = live)
+        ticket.save()
 
-    ticket.number += number
-    ticket.save()
-
-    return HttpResponse("%s" % ticket.number)
+    return HttpResponse("ok")
