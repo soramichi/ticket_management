@@ -12,12 +12,9 @@ from .models import Tour, Live, Ticket
 def index(req, **kwargs):
     template = loader.get_template("main/index.html")
     context = {
-        "tour_list": Tour.objects.all(),
-        "live_list": Live.objects.all(),
-        "ticket_list": Ticket.objects.filter(owner = req.user.username),
+        "tickets": Ticket.objects.filter(owner = req.user.username),
         "username": req.user.username,
     }
-    #return HttpResponse("%s" % hoge)
     return HttpResponse(template.render(context, req))
 
 def add_ticket(req, **kargs):
