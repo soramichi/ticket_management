@@ -1,7 +1,7 @@
 <p>
   <form action="{% url 'do_add_ticket' %}" method="post">
     {% csrf_token %}
-    <input type="radio" name="select_live" value="chose_existing" /> 既存の公演から選択
+    <input type="radio" name="select_live" value="choose_existing" /> 既存の公演から選択
     <p style="margin-left:20px">
       <select name="live">
 	{% for l in live_list %}
