@@ -1,0 +1,20 @@
+<p>
+  {{ username }} さんの保有チケット
+</p>
+<table border="1">
+  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>枚数</td></tr>
+  {% for t in ticket_list %}
+  <tr>
+    <td>{{ t.live.tour.artist_name }}</td>
+    <td>{{ t.live.tour.tour_name }}</td>
+    <td>{{ t.live.live_name }}</td>
+    <td>{{ t.number }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<p>
+  <form action="add_ticket/">
+    <input type="submit" value="チケットを追加" />
+  </form>
+</p>

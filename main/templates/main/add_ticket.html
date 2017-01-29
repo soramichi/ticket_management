@@ -1,0 +1,19 @@
+<p>
+  <form action="{% url 'do_add_ticket' %}" method="post">
+    {% csrf_token %}
+    <input type="radio" name="select_live" value="chose_existing" /> 既存の公演から選択
+    <p style="margin-left:20px">
+      <select name="live">
+	{% for l in live_list %}
+	<option value="{{l.0}}_{{l.1}}_{{l.2}}">{{l.0}} {{l.1}} {{l.2}}</option>
+      {% endfor %}
+    </select>
+    </p>
+    <input type="radio" name="select_live" value="add_new" /> 新しい公演を追加する
+    <p style="margin-left:20px">
+      アーティスト <input type="text" name="artist_name" size=12 /> ツアー <input type="text" name="tour_name" size=12 /> 公演 <input type="text" name="live_name" size=12 />
+    </p>
+    枚数 <input type="text" name="number" size=2 /> <br />
+    <input type="submit" value="チケットを追加" />
+  </form>
+</p>
