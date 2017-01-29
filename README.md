@@ -7,7 +7,7 @@
 - Now you've paid for a hanful of tickets, but here's another problem:
   - You will give one ticket for concert A to John.
   - Because John will give one ticket for concert B to Sara, it will be Sara (not John) to give the money to you.
-  - Oops, John catches a fulu 2 days before the concert, so he asks you to give the ticket to Mark, who's actually not a direct friend of you.
+  - Oops, John caught a fulu 2 days before the concert, so he asked you to give the ticket to Mark, who's actually not a direct friend of you.
   - Cool, so now who owes what to who??
 
 We need a management tool to tackle these problems.
