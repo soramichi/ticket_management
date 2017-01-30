@@ -1,5 +1,8 @@
 # Ticket management
 
+## Help Wanted
+An UI engineer is desperated.
+
 ## Issues tackled in this app
 - Sometimes you mistakenly forget to pay for concert tickets you've won, which will result in serious situations:
   - You loose a greate chance you've got
@@ -24,6 +27,3 @@ Play around with the admin password included in web/admin_password.txt
 
 ### Change the user and the state of each ticket to avoid sad mistakes
 ![change the user and the state of each ticket to avoid sad mistakes](https://github.com/soramichi/ticket_management/blob/master/web/screenshot_edituser.png)
-
-## Help Wanted
-An UI engineer is desperated.
