@@ -16,8 +16,11 @@ We need a management tool to tackle these problems.
 Play around with the admin password included in web/admin_password.txt
 
 ## Some screen shots
-### Your tickets shown
+### Your tickets shown, each ticket is associated with the user and the transaction state
 ![your tickets shown](https://github.com/soramichi/ticket_management/blob/master/web/screenshot_main.png)
 
 ### You can add new concerts and tickets
 ![you can add new concerts and tickets](https://github.com/soramichi/ticket_management/blob/master/web/screenshot_add_ticket.png)
+
+### Change the user and the state of each ticket to avoid sad mistakes
+![change the user and the state of each ticket to avoid sad mistakes](https://github.com/soramichi/ticket_management/blob/master/web/screenshot_edituser.png)
