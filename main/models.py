@@ -20,5 +20,7 @@ class Ticket(models.Model):
     # an auto-increament field `id' is automatically added by django
     owner = models.CharField(max_length = 512, null = True)
     live = models.ForeignKey(Live, on_delete = models.CASCADE)
+    user = models.CharField(max_length = 512, null = True)
+    state = models.IntegerField(default = 0)
     def __str__(self):
        return self.live
