@@ -1,0 +1,20 @@
+<form action="/main/do_edit_user/" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="ticket_id" value="{{ ticket_id }}" />
+  <p>
+  使用者<br />
+  <input type="radio" name="used_by_self" value="1" {% if used_by_self == True %}checked{% endif %}/> 自分 <br />
+  <input type="radio" name="used_by_self" value="0" {% if used_by_self != True %}checked{% endif %}/> その他
+  <input type="text" name="user" size="20" value="{{user}}"/> <br />
+  </p>
+  <p>
+  状態<br />
+  <select name="state">
+    <option value="0" {% if state == 0 %}selected{% endif %}>未完</option>
+    <option value="1" {% if state == 1 %}selected{% endif %}>支払いのみ済</option>
+    <option value="2" {% if state == 2 %}selected{% endif %}>受け渡しのみ済</option>
+    <option value="3" {% if state == 3 %}selected{% endif %}>全て完了</option>
+  </select>
+  </p>
+  <input type="submit" value="変更" />
+</form>

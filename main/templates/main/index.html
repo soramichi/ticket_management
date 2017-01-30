@@ -2,7 +2,7 @@
   {{ username }} さんの保有チケット
 </p>
 <table border="1">
-  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>使用者</td><td>状態</td></tr>
+  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>使用者</td><td>状態</td><td></td></tr>
   {% for t in tickets %}
   <tr>
     <td>{{ t.live.tour.artist_name }}</td>
@@ -13,7 +13,19 @@
     {% else %}
     <td>{{ t.user }}</td>
     {% endif %}
-    <td>{{ t.state }}</td>
+    <td>
+      {% if t.state == 0 %}未完{% endif %}
+      {% if t.state == 1 %}支払いのみ済{% endif %}
+      {% if t.state == 2 %}受け渡しのみ済{% endif %}
+      {% if t.state == 3 %}全て完了{% endif %}
+    </td>
+    <td>
+      <form action="edit_user/" method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="ticket_id" value="{{ t.id }}">
+	<input type="submit" value="使用者を変更">
+      </form>
+    </td>
   </tr>
   {% endfor %}
 </table>

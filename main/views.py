@@ -70,3 +70,37 @@ def do_add_ticket(req, **kwargs):
         ticket.save()
 
     return HttpResponse("ok")
+
+def edit_user(req, **kwargs):
+    template = loader.get_template("main/edit_user.html")
+    ticket_id = int(req.POST["ticket_id"])
+    ticket = Ticket.objects.filter(id = ticket_id)[0]
+
+    context = {
+        "ticket_id": ticket_id,
+        "used_by_self": ticket.used_by_self,
+        "state": ticket.state,
+        "user": ticket.user,
+    }
+
+    return HttpResponse(template.render(context, req))
+
+def do_edit_user(req, **kwargs):
+    ticket_id = int(req.POST["ticket_id"])
+    used_by_self = bool(int(req.POST["used_by_self"]))
+    user = req.POST["user"]
+    state = int(req.POST["state"])
+
+    ticket = Ticket.objects.filter(id = ticket_id)[0]
+
+    # the ticket specified is not owned by the requesting user, hacked?
+    if ticket.owner != req.user.username:
+        message = "ticket id is invalid"
+        return HttpResponse(message)
+
+    ticket.used_by_self = used_by_self
+    ticket.state = state
+    ticket.user = user if used_by_self == False else ""
+    ticket.save()
+    
+    return HttpResponse("%d [%s] %d" % (ticket_id, user, state))
