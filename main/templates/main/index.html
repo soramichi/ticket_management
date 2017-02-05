@@ -10,7 +10,7 @@
     <td>{{ t.live.tour.tour_name }}</td>
     <td>{{ t.live.live_name }}</td>
     <td>
-      {% if t.used_by_self == True and t.owned_by_self == True %}-{% endif %}
+      {% if t.used_by_self == True and t.owned_by_self == True %}なし（自分用）{% endif %}
       {% if t.used_by_self == True and t.owned_by_self == False %}
         {{t.owner}}からもらう（{% if t.state == 0 %}未完{% endif %}{% if t.state == 1 %}支払いのみ済{% endif %}{% if t.state == 2 %}受け渡しのみ済{% endif %}{% if t.state == 3 %}全て完了{% endif %}）
       {% endif %}
