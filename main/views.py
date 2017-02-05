@@ -66,7 +66,7 @@ def do_add_ticket(req, **kwargs):
     for i in range(0, number):
         # multiple tickets are distinguishable by `.id', which is automatically
         # added by the django framework
-        ticket = Ticket(registerd_by = req.user.username, live = live)
+        ticket = Ticket(registered_by = req.user.username, live = live)
         ticket.save()
 
     return HttpResponse("ok")
