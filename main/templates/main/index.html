@@ -41,7 +41,8 @@
 </table>
 
 <p>
-  <form action="add_ticket/">
+  <form action="add_ticket/" method="post">
+    {% csrf_token %}
     <input type="submit" value="チケットを追加" />
   </form>
 </p>
