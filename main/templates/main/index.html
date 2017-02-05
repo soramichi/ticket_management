@@ -1,39 +1,28 @@
 <p>
-  {{ username }} さんの保有チケット
+  {{ username }} さんのチケット
 </p>
+
 <table border="1">
-  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>所有者</td><td>使用者</td><td>状態</td><td></td></tr>
+  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>TODO</td><td></td></tr>
   {% for t in tickets %}
   <tr>
     <td>{{ t.live.tour.artist_name }}</td>
     <td>{{ t.live.tour.tour_name }}</td>
     <td>{{ t.live.live_name }}</td>
-    {% if t.owned_by_self == True %}
-    <td>自分</td>
-    {% else %}
-    <td>{{ t.owner }}</td>
-    {% endif %}
-    {% if t.used_by_self == True %}
-    <td>自分</td>
-    {% else %}
-    <td>{{ t.user }}</td>
-    {% endif %}
     <td>
-      {% if t.owned_by_self == True and t.used_by_self == True %}
-      <!-- if the owner and the user are both myself, do not show the state -->
-        -
-      {% else %}
-        {% if t.state == 0 %}未完{% endif %}
-        {% if t.state == 1 %}支払いのみ済{% endif %}
-        {% if t.state == 2 %}受け渡しのみ済{% endif %}
-        {% if t.state == 3 %}全て完了{% endif %}
+      {% if t.used_by_self == True and t.owned_by_self == True %}-{% endif %}
+      {% if t.used_by_self == True and t.owned_by_self == False %}
+        {{t.owner}}からもらう（{% if t.state == 0 %}未完{% endif %}{% if t.state == 1 %}支払いのみ済{% endif %}{% if t.state == 2 %}受け渡しのみ済{% endif %}{% if t.state == 3 %}全て完了{% endif %}）
+      {% endif %}
+      {% if t.used_by_self == False and t.owned_by_self == True %}
+        {{t.user}}にあげる（{% if t.state == 0 %}未完{% endif %}{% if t.state == 1 %}支払いのみ済{% endif %}{% if t.state == 2 %}受け渡しのみ済{% endif %}{% if t.state == 3 %}全て完了{% endif %}）
       {% endif %}
     </td>
     <td>
       <form action="edit_user/" method="POST">
 	{% csrf_token %}
 	<input type="hidden" name="ticket_id" value="{{ t.id }}">
-	<input type="submit" value="使用者を変更">
+	<input type="submit" value="状態を変更">
       </form>
     </td>
   </tr>
