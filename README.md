@@ -5,8 +5,8 @@ An UI engineer is desperated.
 
 ## Issues tackled in this app
 - Sometimes you mistakenly forget to pay for concert tickets you've won, which will result in serious situations:
-  - You loose a greate chance you've got
-  - You will loose future opporunities to win ticket lotteries (that's many FCs do, you know) 
+  - You lose a greate chance you've got
+  - You will lose future opporunities to win ticket lotteries (that's many FCs do, you know) 
 - Now you've paid for a hanful of tickets, but here's another problem:
   - You will give one ticket for concert A to John.
   - Because John will give one ticket for concert B to Sara, it will be Sara (not John) to give the money to you.
