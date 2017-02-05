@@ -19,11 +19,11 @@
       {% endif %}
     </td>
     <td>
-      <form action="edit_user/" method="POST">
+      <form action="edit_user/" method="POST" name="edit_status_{{t.id}}">
 	{% csrf_token %}
 	<input type="hidden" name="ticket_id" value="{{ t.id }}">
-	<input type="submit" value="状態を変更">
       </form>
+      <a href="#" onClick="document.edit_status_{{t.id}}.submit()">状態を変更</a>
     </td>
   </tr>
   {% endfor %}
