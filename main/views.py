@@ -7,6 +7,21 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Tour, Live, Ticket
 
+# "{'a', 'b', 'c'}" => "a,b,c"
+def process_string_for_js(s):
+    if not isinstance(s, str):
+        s = s.__str__()
+    return s[1:-1].replace("'","")
+
+def delete_heading_spaces(s):
+    n_spaces = 0
+    for i in range(0, len(s)):
+        if s[i] == ' ':
+            n_spaces += 1
+        else:
+            break
+    return s[n_spaces:]
+
 # Create your views here.
 @login_required(login_url='/login/')
 def index(req, **kwargs):
@@ -30,14 +45,13 @@ def do_add_ticket(req, **kwargs):
         number = int(req.POST["number"])
         
         if req.POST["select_live"] == "choose_existing":
-            in_str = req.POST["live"]
-            # crazily bad assumption: in_str is in a form of "arist_tour_live"
-            # (imagine what happens if say the artist name includes a '_')
-            artist_name, tour_name, live_name = in_str.split("_")
+            artist_name = delete_heading_spaces(req.POST["artist_selected"])
+            tour_name = delete_heading_spaces(req.POST["tour_selected"])
+            live_name = delete_heading_spaces(req.POST["live_selected"])
         elif req.POST["select_live"] == "add_new":
-            artist_name = req.POST["artist_name"]
-            tour_name = req.POST["tour_name"]
-            live_name = req.POST["live_name"]
+            artist_name = req.POST["artist_added"]
+            tour_name = req.POST["tour_added"]
+            live_name = req.POST["live_added"]
     except ValueError:
         message = "Number of tickets should be an ascii integer"
         return HttpResponse(message)
@@ -110,3 +124,19 @@ def do_edit_user(req, **kwargs):
     ticket.save()
     
     return HttpResponse("%d [%s] %d" % (ticket_id, user, state))
+
+def get_artists(req, **kwargs):
+    tours = Tour.objects.all()
+    artists = set([t.artist_name for t in tours])
+    return HttpResponse("%s" % process_string_for_js(artists.__str__()))
+
+def get_tours(req, **kwargs):
+    artist_name = delete_heading_spaces(req.POST["artist_selected"])
+    tours = Tour.objects.filter(artist_name = artist_name)
+    return HttpResponse("%s" % process_string_for_js([t.tour_name for t in tours]))
+
+def get_lives(req, **kwargs):
+    tour_name = delete_heading_spaces(req.POST["tour_selected"])
+    tour = Tour.objects.filter(tour_name = tour_name)[0] # assume every tours have different names
+    lives = Live.objects.filter(tour = tour)
+    return HttpResponse("%s" % process_string_for_js([l.live_name for l in lives]))

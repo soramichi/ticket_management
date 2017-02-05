@@ -1,19 +1,82 @@
+<head>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+  <script>
+    function get_artists(){
+      $.ajax({
+        'url': "/main/get_artists/",
+        'type':'POST',
+        'data': $('form#main_form').serialize(),
+        'success':function(response){
+          $('select#select_artist').html(""); // reset
+          for(i in response.split(",")){
+            artist = response.split(",")[i]
+            $('select#select_artist').append("<option value='" + artist + "'>" + artist + "</option>");
+          }
+          get_tours();
+        }
+      });
+    }
+
+    function get_tours(){
+      $.ajax({
+        'url': "/main/get_tours/",
+        'type':'POST',
+        'data':$('form#main_form').serialize(),
+        'success':function(response){
+          $('select#select_tour').html(""); // reset
+          for(i in response.split(",")){
+            tour = response.split(",")[i]
+            $('select#select_tour').append("<option value='" + tour + "'>" + tour + "</option>");
+          }
+          get_lives();
+        }
+      });
+    }
+
+    function get_lives(){
+      $.ajax({
+        'url': "/main/get_lives/",
+        'type':'POST',
+        'data':$('form#main_form').serialize(),
+        'success':function(response){
+          $('select#select_live').html(""); // reset
+          for(i in response.split(",")){
+            live = response.split(",")[i]
+            $('select#select_live').append("<option value='" + live + "'>" + live + "</option>");
+          }
+        }
+      });
+    }
+  </script>
+
+</head>
+	 
+<body onLoad="get_artists()">
 <p>
-  <form action="{% url 'do_add_ticket' %}" method="post">
+  <form action="{% url 'do_add_ticket' %}" id="main_form" method="post">
     {% csrf_token %}
-    <input type="radio" name="select_live" value="choose_existing" /> 既存の公演から選択
+    <input type="radio" name="select_live" value="choose_existing" checked/> 既存の公演から選択
     <p style="margin-left:20px">
-      <select name="live">
-	{% for l in live_list %}
-	<option value="{{l.0}}_{{l.1}}_{{l.2}}">{{l.0}} {{l.1}} {{l.2}}</option>
-      {% endfor %}
-    </select>
+      アーティスト
+      <select name="artist_selected" id="select_artist" onchange="get_tours()">
+      </select>
+
+      ツアー
+      <select name="tour_selected" id="select_tour" onchange="get_lives()">
+      </select>
+
+      公演
+      <select name="live_selected" id="select_live">
+      </select>
     </p>
     <input type="radio" name="select_live" value="add_new" /> 新しい公演を追加する
     <p style="margin-left:20px">
-      アーティスト <input type="text" name="artist_name" size=12 /> ツアー <input type="text" name="tour_name" size=12 /> 公演 <input type="text" name="live_name" size=12 />
+      アーティスト <input type="text" name="artist_added" size=12 />
+      ツアー <input type="text" name="tour_added" size=12 />
+      公演 <input type="text" name="live_added" size=12 />
     </p>
     枚数 <input type="text" name="number" size=2 /> <br />
     <input type="submit" value="チケットを追加" />
   </form>
 </p>
+</body>
