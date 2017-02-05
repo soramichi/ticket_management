@@ -2,22 +2,32 @@
   {{ username }} さんの保有チケット
 </p>
 <table border="1">
-  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>使用者</td><td>状態</td><td></td></tr>
+  <tr bgcolor="#62B2FB"><td>アーティスト</td><td>ツアー</td><td>公演</td><td>所有者</td><td>使用者</td><td>状態</td><td></td></tr>
   {% for t in tickets %}
   <tr>
     <td>{{ t.live.tour.artist_name }}</td>
     <td>{{ t.live.tour.tour_name }}</td>
     <td>{{ t.live.live_name }}</td>
+    {% if t.owned_by_self == True %}
+    <td>自分</td>
+    {% else %}
+    <td>{{ t.owner }}</td>
+    {% endif %}
     {% if t.used_by_self == True %}
     <td>自分</td>
     {% else %}
     <td>{{ t.user }}</td>
     {% endif %}
     <td>
-      {% if t.state == 0 %}未完{% endif %}
-      {% if t.state == 1 %}支払いのみ済{% endif %}
-      {% if t.state == 2 %}受け渡しのみ済{% endif %}
-      {% if t.state == 3 %}全て完了{% endif %}
+      {% if t.owned_by_self == True and t.used_by_self == True %}
+      <!-- if the owner and the user are both myself, do not show the state -->
+        -
+      {% else %}
+        {% if t.state == 0 %}未完{% endif %}
+        {% if t.state == 1 %}支払いのみ済{% endif %}
+        {% if t.state == 2 %}受け渡しのみ済{% endif %}
+        {% if t.state == 3 %}全て完了{% endif %}
+      {% endif %}
     </td>
     <td>
       <form action="edit_user/" method="POST">

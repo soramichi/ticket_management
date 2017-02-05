@@ -8,6 +8,12 @@
   <input type="text" name="user" size="20" value="{{user}}"/> <br />
   </p>
   <p>
+  所有者<br />
+  <input type="radio" name="owned_by_self" value="1" {% if owned_by_self == True %}checked{% endif %}/> 自分 <br />
+  <input type="radio" name="owned_by_self" value="0" {% if owned_by_self != True %}checked{% endif %}/> その他
+  <input type="text" name="owner" size="20" value="{{owner}}"/> <br />
+  </p>
+  <p>
   状態<br />
   <select name="state">
     <option value="0" {% if state == 0 %}selected{% endif %}>未完</option>

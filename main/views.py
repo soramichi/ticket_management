@@ -12,7 +12,7 @@ from .models import Tour, Live, Ticket
 def index(req, **kwargs):
     template = loader.get_template("main/index.html")
     context = {
-        "tickets": Ticket.objects.filter(owner = req.user.username),
+        "tickets": Ticket.objects.filter(registered_by = req.user.username),
         "username": req.user.username,
     }
     return HttpResponse(template.render(context, req))
@@ -66,7 +66,7 @@ def do_add_ticket(req, **kwargs):
     for i in range(0, number):
         # multiple tickets are distinguishable by `.id', which is automatically
         # added by the django framework
-        ticket = Ticket(owner = req.user.username, live = live)
+        ticket = Ticket(registerd_by = req.user.username, live = live)
         ticket.save()
 
     return HttpResponse("ok")
@@ -78,9 +78,11 @@ def edit_user(req, **kwargs):
 
     context = {
         "ticket_id": ticket_id,
+        "owner": ticket.owner,
+        "owned_by_self": ticket.owned_by_self,
+        "user": ticket.user,
         "used_by_self": ticket.used_by_self,
         "state": ticket.state,
-        "user": ticket.user,
     }
 
     return HttpResponse(template.render(context, req))
@@ -89,18 +91,22 @@ def do_edit_user(req, **kwargs):
     ticket_id = int(req.POST["ticket_id"])
     used_by_self = bool(int(req.POST["used_by_self"]))
     user = req.POST["user"]
+    owned_by_self = bool(int(req.POST["owned_by_self"]))
+    owner = req.POST["owner"]
     state = int(req.POST["state"])
 
     ticket = Ticket.objects.filter(id = ticket_id)[0]
 
     # the ticket specified is not owned by the requesting user, hacked?
-    if ticket.owner != req.user.username:
+    if ticket.registered_by != req.user.username:
         message = "ticket id is invalid"
         return HttpResponse(message)
 
     ticket.used_by_self = used_by_self
+    ticket.owned_by_self = owned_by_self
     ticket.state = state
     ticket.user = user if used_by_self == False else ""
+    ticket.owner = owner if owned_by_self == False else ""
     ticket.save()
     
     return HttpResponse("%d [%s] %d" % (ticket_id, user, state))
